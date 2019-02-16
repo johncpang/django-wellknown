@@ -1,6 +1,9 @@
-from django.conf import settings
-from django.http import HttpResponse, Http404
-import wellknown
+from django.http import (
+    HttpResponse,
+    HttpResponseForbidden,
+    HttpResponseNotFound,
+)
+from wellknown.models import Resource
 
 try:
     from robots.views import rules_list
@@ -8,19 +11,15 @@ except ImportError:
     rules_list = None
 
 def handle(request, path, *args, **kwargs):
-    """ Basic handler view to either display cached content
-        or make call to actual handler method for rendering.
-    """
+    if request.method != 'GET':
+        return HttpResponseForbidden('Only GET allowed.')
 
-    (handler_or_content, content_type) = wellknown.get_resource(path)
-
-    if handler_or_content is None:
-        raise Http404()
-
-    if callable(handler_or_content):
-        content = handler_or_content(request, content_type=content_type, *args, **kwargs)
-    else:
-        content = handler_or_content
+    try:
+        r = Resource.objects.get(path=path)
+        content = r.content
+        content_type = r.content_type
+    except Resource.DoesNotExist:
+        return HttpResponseNotFound('Resource %s does not exist.' % path)
 
     return HttpResponse(content or '', content_type=content_type)
 
