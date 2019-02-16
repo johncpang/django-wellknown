@@ -2,6 +2,6 @@ from setuptools import setup
 
 setup(
     name='wellknown',
-    version='0.1dev',
+    version='0.3',
     packages=['wellknown']
 )

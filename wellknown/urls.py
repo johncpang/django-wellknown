@@ -1,7 +1,8 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import url
+from wellknown.views import handle, crossdomain, robots
 
-urlpatterns = patterns('wellknown.views',
-    url(r'^\.well-known/(?P<path>.*)', 'handle', name='wellknown'),
-    url(r'^crossdomain\.xml$', 'crossdomain', name='crossdomain.xml'),
-    url(r'^robots\.txt$', 'robots', name='robots.txt'),
-)
+urlpatterns = [
+    url(r'^\.well-known/(?P<path>.*)', handle, name='wellknown'),
+    url(r'^crossdomain\.xml$', crossdomain, name='crossdomain.xml'),
+    url(r'^robots\.txt$', robots, name='robots.txt'),
+]

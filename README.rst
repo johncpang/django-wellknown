@@ -10,9 +10,9 @@ http://tools.ietf.org/html/draft-hammer-hostmeta-04
 Requirements
 ============
 
-python >= 2.5
+python >= 3.5
 
-django >= 1.0
+django >= 2.0
 
 django-robots (optional)
 
@@ -27,7 +27,7 @@ Be sure to add ``wellknown`` to ``INSTALLED_APPS`` in settings.py. Additionally,
 
 	urls(r'^', include('wellknown.urls')),
 
-Run ``./manage.py syncdb``
+Run ``./manage.py migrate``
 
 Usage
 =====
